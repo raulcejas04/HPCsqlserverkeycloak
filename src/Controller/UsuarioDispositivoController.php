@@ -10,9 +10,9 @@ use App\Repository\UsuarioDispositivoRepository;
 //use App\Repository\UsuarioRepository;
 //use App\Repository\DispositivoRepository;
 
-use App\Entity\dispositivos;
-use App\Entity\usuario;
-use App\Entity\usuarioDispositivo;
+use App\Entity\Dispositivos;
+use App\Entity\Usuario;
+use App\Entity\UsuarioDispositivo;
 
 /**
 * @Route("/usudisp")
