@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="hpcdiat.USUARIO")
  * @ORM\Entity
  */
-class Usuario
+class usuario
 {
     /**
      * @var int
@@ -59,7 +59,7 @@ class Usuario
     private $userActivo;
 
     /**
-     * @ORM\OneToMany(targetEntity="UsuarioDispositivo", mappedBy="usuario" )
+     * @ORM\OneToMany(targetEntity="usuarioDispositivo", mappedBy="usuario", fetch="EAGER" )
      * @ORM\JoinColumn(name="id_user_hpc", referencedColumnName="id_user_hpc")
     */
     private $usuarioDispositivo;
@@ -134,14 +134,14 @@ class Usuario
     }
 
     /**
-     * @return Collection|UsuarioDispositivo[]
+     * @return Collection|usuarioDispositivo[]
      */
     public function getUsuarioDispositivo(): Collection
     {
         return $this->usuarioDispositivo;
     }
 
-    public function addUsuarioDispositivo(UsuarioDispositivo $usuarioDispositivo): self
+    public function addUsuarioDispositivo(usuarioDispositivo $usuarioDispositivo): self
     {
         if (!$this->usuarioDispositivo->contains($usuarioDispositivo)) {
             $this->usuarioDispositivo[] = $usuarioDispositivo;
@@ -151,7 +151,7 @@ class Usuario
         return $this;
     }
 
-    public function removeUsuarioDispositivo(UsuarioDispositivo $usuarioDispositivo): self
+    public function removeUsuarioDispositivo(usuarioDispositivo $usuarioDispositivo): self
     {
         if ($this->usuarioDispositivo->removeElement($usuarioDispositivo)) {
             // set the owning side to null (unless already changed)

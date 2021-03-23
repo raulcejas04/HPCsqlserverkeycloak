@@ -51,6 +51,12 @@ class UsuarioDispositivo
      */
     private $canWrite;
 
+    public function __construct() {
+        $this->dispositivos = new ArrayCollection();
+        $this->usuario = new ArrayCollection();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
