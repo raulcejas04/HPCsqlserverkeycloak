@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table(name="hpcdiat.USUARIO_DISPOSITIVO")
  * @ORM\Entity
  */
-class UsuarioDispositivo
+class usuarioDispositivo
 {
     /**
      * @ORM\Id
@@ -24,14 +24,14 @@ class UsuarioDispositivo
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Dispositivos", inversedBy="usuarioDispositivo")
+     * @ORM\ManyToOne(targetEntity="dispositivos", inversedBy="usuarioDispositivo")
      * @ORM\JoinColumn(name="id_dispositivo_hpc", referencedColumnName="id_dispositivo_hpc")
     */
     private $dispositivos;
     //private $idDispositivoHpc;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Usuario", inversedBy="usuarioDispositivo")
+     * @ORM\ManyToOne(targetEntity="usuario", inversedBy="usuarioDispositivo")
      * @ORM\JoinColumn(name="id_user_hpc", referencedColumnName="id_user_hpc")
     */
     private $usuario;
@@ -86,24 +86,24 @@ class UsuarioDispositivo
         return $this;
     }
 
-    public function getDispositivos(): ?Dispositivos
+    public function getDispositivos(): ?dispositivos
     {
         return $this->dispositivos;
     }
 
-    public function setDispositivos(?Dispositivos $dispositivos): self
+    public function setDispositivos(?dispositivos $dispositivos): self
     {
         $this->dispositivos = $dispositivos;
 
         return $this;
     }
 
-    public function getUsuario(): ?Usuario
+    public function getUsuario(): ?usuario
     {
         return $this->usuario;
     }
 
-    public function setUsuario(?Usuario $usuario): self
+    public function setUsuario(?usuario $usuario): self
     {
         $this->usuario = $usuario;
 
