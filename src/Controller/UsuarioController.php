@@ -2,28 +2,6 @@
 
 namespace App\Controller;
 
-//<<<<<<< HEAD
-//use App\Entity\usuario;
-//use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use Symfony\Component\HttpFoundation\Response;
-//use Symfony\Component\Routing\Annotation\Route;
-//
-//class UsuarioController extends AbstractController
-//{
-//    /**
-//     * @Route("/usuario", name="usuario")
-//     */
-//    public function index(): Response
-//    {
-//        $usuarios = $this->getDoctrine()
-//            ->getRepository(usuario::class)
-//            ->findAll();
-//
-//        return $this->render('home/index.html.twig', [
-//            'controller_name' => 'HomeController', 'usuarios' => $usuarios
-//        ]);
-//    }
-//=======
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +24,7 @@ class UsuarioController extends AbstractController
 {
 
      /**
-     * @Route("/usuario", name="usuario")
+     * @Route("/", name="usuario")
      */
     public function index(): Response
     {
@@ -88,6 +66,4 @@ class UsuarioController extends AbstractController
         ]);
     }
 
-
-//>>>>>>> main
 }
