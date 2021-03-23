@@ -1,0 +1,30 @@
+
+{% block javascripts %}
+   <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+   <script src="{{ asset('js/collections.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{{ form_start(usuarioForm) }}
+    {{ form_errors(usuarioForm) }}
+
+    {{ form_row(usuarioForm.nombre) }}
+    {{ form_row(usuarioForm.apellido) }}
+    {{ form_row(usuarioForm.idUserKeycloak) }}
+
+    <h3>Dispositivos</h3>
+    <div class="row js-usudisp-wrapper">
+        <button type="button" class="add_item_link" data-collection-holder-class="usuarioDispositivo">Agregar dispositivo</button>
+    </div>
+
+    {#{{ form_widget(usuarioForm.usuarioDispositivo) }}#}
+
+    <ul class="usuarioDispositivo" data-prototype="{{ form_widget(usuarioForm.usuarioDispositivo.vars.prototype)|e('html_attr') }}">
+        {% for usudispForm in usuarioForm.usuarioDispositivo %}
+            <li>{{ form_row(usudispForm) }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <button type="submit" class="btn btn-primary" formnovalidate>Save</button>
+{{ form_end(usuarioForm) }}
+

@@ -33,17 +33,7 @@ class UsuarioDispositivoController extends AbstractController
     }
 
 
-    /**
-    * @Route("/usuario/{idusuario}/disp/{iddispositivo}", name="admin_post_show")
-    */
-    public function edit( Request $request, $idusuario, $iddispositivo ) : Response
-    {
-        echo "idusu $idusuario iddisp $iddispositivo<br>";
-        die();
-        //$usudisp = $repository->findOneBy(['idusuario' => 'idusuario','iddispositivo'=>$iddispositivo]);
-        /*$usudisp = $this->getDoctrine()
-            ->getRepository(UsuarioDispositivo::class)
-            ->find($idusuario,$iddispositivo);*/
 
-    }
+
+
 }
