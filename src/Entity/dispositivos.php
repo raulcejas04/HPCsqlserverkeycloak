@@ -45,7 +45,7 @@ class dispositivos
     private $codigoDispositivo;
 
     /**
-     * @ORM\OneToMany(targetEntity="usuarioDispositivo", mappedBy="dispositivos")
+     * @ORM\OneToMany(targetEntity="usuarioDispositivo", mappedBy="dispositivos", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="id_dispositivo_hpc", referencedColumnName="id_dispositivo_hpc")
     */
     private $usuarioDispositivo;

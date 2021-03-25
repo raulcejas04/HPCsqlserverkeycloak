@@ -59,7 +59,7 @@ class usuario
     private $userActivo;
 
     /**
-     * @ORM\OneToMany(targetEntity="usuarioDispositivo", mappedBy="usuario", fetch="EAGER" )
+     * @ORM\OneToMany(targetEntity="usuarioDispositivo", mappedBy="usuario", orphanRemoval=true, cascade={"persist"} )
      * @ORM\JoinColumn(name="id_user_hpc", referencedColumnName="id_user_hpc")
     */
     private $usuarioDispositivo;
@@ -162,5 +162,5 @@ class usuario
 
         return $this;
     }
-
+    
 }
