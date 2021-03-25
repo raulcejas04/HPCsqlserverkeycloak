@@ -27,10 +27,30 @@ function addFormToCollection($collectionHolderClass) {
     var $newFormLi = $('<li></li>').append(newForm);
     // Add the new form at the end of the list
     $collectionHolder.append($newFormLi)
+
+    //Para el remove
+    addTagFormDeleteLink($newFormLi);
+
+}
+
+
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button type="button">Eliminar dispositivo</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
 }
 
 
 jQuery(document).ready(function() {
+
+    /**********************************************************/
+    /*           ADD                                          */
+    /**********************************************************/
+
     // Get the ul that holds the collection of tags
     var $usuarioDispositivoCollectionHolder = $('ul.usuarioDispositivo');
     // count the current form inputs we have (e.g. 2), use that as the new
@@ -42,6 +62,16 @@ jQuery(document).ready(function() {
         // add a new tag form (see next code block)
         addFormToCollection($collectionHolderClass);
     })
+
+    /**********************************************************/
+    /*           REMOVE                                       */
+    /**********************************************************/
+    $collectionHolder = $('ul.usuarioDispositivo');
+
+    // add a delete link to all of the existing tag form li elements
+    $collectionHolder.find('li').each(function() {
+        addTagFormDeleteLink($(this));
+    });
 
     
 });

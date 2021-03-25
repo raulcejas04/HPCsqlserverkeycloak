@@ -5,13 +5,16 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
  * Hpcdiat.usuarioDispositivo
  *
  * @ORM\Table(name="hpcdiat.USUARIO_DISPOSITIVO")
- * @ORM\Entity
+ * @UniqueEntity(
+ *     fields={"dispositivos", "usuario"})
+  * @ORM\Entity
  */
 class usuarioDispositivo
 {
@@ -24,19 +27,17 @@ class usuarioDispositivo
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="dispositivos", inversedBy="usuarioDispositivo")
+     * @ORM\ManyToOne(targetEntity="dispositivos", inversedBy="usuarioDispositivo",fetch="EAGER")
      * @ORM\JoinColumn(name="id_dispositivo_hpc", referencedColumnName="id_dispositivo_hpc")
     */
     private $dispositivos;
-    //private $idDispositivoHpc;
-
+    
     /**
-     * @ORM\ManyToOne(targetEntity="usuario", inversedBy="usuarioDispositivo")
+     * @ORM\ManyToOne(targetEntity="usuario", inversedBy="usuarioDispositivo",fetch="EAGER")
      * @ORM\JoinColumn(name="id_user_hpc", referencedColumnName="id_user_hpc")
     */
     private $usuario;
-    //private $idUserHpc;
-
+    
     /**
      * @var string|null
      *
@@ -51,10 +52,10 @@ class usuarioDispositivo
      */
     private $canWrite;
 
-    public function __construct() {
+    /*public function __construct() {
         $this->dispositivos = new ArrayCollection();
         $this->usuario = new ArrayCollection();
-    }
+    }*/
 
 
     public function getId(): ?int

@@ -1,0 +1,28 @@
+{# ./templates/default/index.html.twig #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>My Application</title>
+    </head>
+    <body>
+	<div class="count">
+	   {{ pagination.getTotalItemCount }}
+	</div>
+        <table>
+        {% for usuario in pagination %}
+            <tr>
+                <td>{{ usuario.nombre }}</td>
+                <td>
+                    {#<a href="{{ path('usuario_show', {'id': usuario.idUserHpc}) }}">show</a>#}
+                    <a href="{{ path('usuario_edit', {'id': usuario.idUserHpc}) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </body>
+</html>
