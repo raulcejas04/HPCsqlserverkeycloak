@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alta Dispositivos{% endblock %}
+
+{% block body %}
+    <h1>Alta de Dispositivos Hoja de Primer Contacto (HPC)</h1>
+
+    {{ include('dispositivos/_form.html.twig') }}
+
+    <button>Agregar</button>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Codigo Interno</th>
+            <th>Nombre Dispositivo</th>
+            <th>Acción</th>
+        </tr>
+        <tr>
+            <td>{{ dispositivo.codigoDispositivo }}</td>
+            <td>{{ dispositivo.descripcion }}</td>
+            <td><button>Quitar</button></td>
+        </tr>
+        <tr>
+
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

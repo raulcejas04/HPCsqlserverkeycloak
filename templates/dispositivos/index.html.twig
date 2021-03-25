@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dispositivos index{% endblock %}
+
+{% block body %}
+    <h1>Dispositivos index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdDispositivoHpc</th>
+                <th>Descripcion</th>
+                <th>IdDispositivoPics</th>
+                <th>CodigoDispositivo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dispositivo in dispositivos %}
+            <tr>
+                <td>{{ dispositivo.idDispositivoHpc }}</td>
+                <td>{{ dispositivo.descripcion }}</td>
+                <td>{{ dispositivo.idDispositivoPics }}</td>
+                <td>{{ dispositivo.codigoDispositivo }}</td>
+                <td>
+                    <a href="{{ path('dispositivos_show', {'idDispositivoHpc': dispositivo.idDispositivoHpc}) }}">show</a>
+                    <a href="{{ path('dispositivos_edit', {'idDispositivoHpc': dispositivo.idDispositivoHpc}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('dispositivos_new') }}">Create new</a>
+{% endblock %}
