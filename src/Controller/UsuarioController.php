@@ -83,7 +83,8 @@ class UsuarioController extends AbstractController
     {
         //dd($usuario);
         if (null === $usuario ) {
-            throw $this->createNotFoundException('No existe el Usuario para el id '.$id);
+//            throw $this->createNotFoundException('No existe el Usuario para el id '.$id);
+            throw $this->createNotFoundException('No existe el Usuario para el id '.$request->get('id'));
         }
 
         $originalDisp = new ArrayCollection();
