@@ -21,7 +21,7 @@ class dispositivos
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idDispositivosHpc;
+    private $idDispositivoHpc;
 
     /**
      * @var string|null
@@ -54,9 +54,9 @@ class dispositivos
         $this->usuarioDispositivo = new ArrayCollection();
     }
 
-    public function getIdDispositivosHpc(): ?int
+    public function getIdDispositivoHpc(): ?int
     {
-        return $this->idDispositivosHpc;
+        return $this->idDispositivoHpc;
     }
 
     public function getDescripcion(): ?string
