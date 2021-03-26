@@ -32,6 +32,10 @@ class UsuarioController extends AbstractController
      */
     public function index(): Response
     {
+
+//        HOLA
+//        ESTOY EN MAIN
+
         $usuarios = $this->getDoctrine()
             ->getRepository(usuario::class)
             ->findAll();
