@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Form\usuarioType;
+use App\Form\usuarioType2;
 
 use App\Repository\UsuarioDispositivoRepository;
 //use App\Repository\UsuarioRepository;
@@ -114,6 +115,31 @@ class UsuarioController extends AbstractController
         return $this->render('usuario/edit.twig', [
             'usuario' => $usuario,
             'usuarioForm' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/new", name="usuario_new", methods={"GET","POST"})
+     */
+    public function new(Request $request): Response
+    {
+        $usuario = new Usuario();
+        $form = $this->createForm(UsuarioType2::class, $usuario);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($usuario);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('usuario');
+        }
+        $usuarios = $this->getDoctrine()
+            ->getRepository(Usuario::class)
+            ->findOneBy(["idUserAd" => "lleal"]);
+
+        return $this->render('usuario/new.html.twig', [
+            'usuario' => $usuario,
+            'form' => $form->createView(),
+            'usuarios' => $usuarios
         ]);
     }
 
