@@ -14,7 +14,6 @@ class DispositivosType extends AbstractType
         $builder
             ->add('descripcion')
             ->add('codigoDispositivo')
-
         ;
     }
 

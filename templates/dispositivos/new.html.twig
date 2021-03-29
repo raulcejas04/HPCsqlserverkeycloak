@@ -7,23 +7,31 @@
 
     {{ include('dispositivos/_form.html.twig') }}
 
-    <button class="btn btn-warning">Agregar</button>
-
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Codigo Interno</th>
-            <th>Nombre Dispositivo</th>
+<div style="height:420px;overflow:auto;">
+    <table border="1" class="table table-dark" >
+        <thead class="fixedHeader">
+            <th>Código Interno</th>
+            <th>Dispositivo</th>
             <th>Acción</th>
-        </tr>
-        <tr>
-            <td>{{ dispositivo.codigoDispositivo }}</td>
-            <td>{{ dispositivo.descripcion }}</td>
-            <td><button class="btn btn-warning"> Quitar</button></td>
-        </tr>
-        <tr>
-
-        </tr>
+        </thead>
+        <tbody>
+        {% for dispositivo in dispositivos %}
+            <tr>
+                <td>{{ dispositivo.codigoDispositivo }}</td>
+                <td>{{ dispositivo.descripcion }}</td>
+                <td>
+                    {{ include('dispositivos/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No se encontraron dispositivos</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
+</div>
+    <a class="btn btn-warning" href="{{ path('usuario') }}">Confirmar Altas</a>
+
+
 {% endblock %}

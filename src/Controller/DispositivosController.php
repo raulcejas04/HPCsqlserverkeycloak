@@ -42,12 +42,17 @@ class DispositivosController extends AbstractController
             $entityManager->persist($dispositivo);
             $entityManager->flush();
 
-            return $this->redirectToRoute('dispositivos_index');
+            return $this->redirectToRoute('dispositivos_new');
         }
+
+        $dispositivos = $this->getDoctrine()
+            ->getRepository(dispositivos::class)
+            ->findAll();
 
         return $this->render('dispositivos/new.html.twig', [
             'dispositivo' => $dispositivo,
             'form' => $form->createView(),
+            'dispositivos' =>$dispositivos,
         ]);
     }
 
@@ -92,6 +97,6 @@ class DispositivosController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('dispositivos_index');
+        return $this->redirectToRoute('dispositivos_new');
     }
 }
