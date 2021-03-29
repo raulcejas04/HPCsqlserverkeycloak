@@ -130,11 +130,11 @@ class UsuarioController extends AbstractController
             $entityManager->persist($usuario);
             $entityManager->flush();
 
-            return $this->redirectToRoute('usuario');
+            return $this->redirectToRoute('usuario_new');
         }
         $usuarios = $this->getDoctrine()
             ->getRepository(Usuario::class)
-            ->findOneBy(["idUserAd" => "lleal"]);
+            ->findAll();
 
         return $this->render('usuario/new.html.twig', [
             'usuario' => $usuario,
@@ -142,5 +142,17 @@ class UsuarioController extends AbstractController
             'usuarios' => $usuarios
         ]);
     }
+    /**
+     * @Route("/{idUserHpc}", name="usuarios_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Usuario $usuario): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$usuario->getIdUserHpc(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($usuario);
+            $entityManager->flush();
+        }
 
+        return $this->redirectToRoute('usuario_new');
+    }
 }
