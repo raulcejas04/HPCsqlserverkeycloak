@@ -19,8 +19,9 @@ class usuarioType2 extends AbstractType
         ->add('idUserKeycloak',TextType::class, ['label' => 'Id de Keycloack'])
         ->add('apellido',TextType::class, ['label' => 'Apellido'])
         ->add('nombre',TextType::class, ['label' => 'Nombre'])
-        ->add('userActivo', CheckboxType::class)
-        ->add('Agregar', SubmitType::class);
+        ->add('userActivo', CheckboxType::class,[
+            'required' => false,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
