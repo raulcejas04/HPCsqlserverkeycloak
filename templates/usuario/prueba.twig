@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block toolbar_content %}
+    {% include('usuario/toolbar.html.twig') %}
+{% endblock toolbar_content %}
+
+{% block body %}
+
+{% block sidebar_content %}
+    {% include('usuario/sidebar_content.html.twig') %}
+{% endblock sidebar_content %}
+
+{% block main_content %}
+    {% include('usuario/main_content.html.twig') %}
+{% endblock main_content %}
+
+{% endblock %}

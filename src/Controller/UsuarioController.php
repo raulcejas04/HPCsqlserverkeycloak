@@ -46,6 +46,14 @@ class UsuarioController extends AbstractController
     }
 
     /**
+     * @Route("/prueba", name="prueba")
+     */
+    public function prueba( Request $request)
+    {
+        return $this->render('usuario/prueba.twig');
+    }
+
+    /**
      * @Route("/list", name="usuario_list")
      */
     public function list( Request $request, PaginatorInterface $paginator)
@@ -70,13 +78,14 @@ class UsuarioController extends AbstractController
                 // Define the page parameter
                 $request->query->getInt('page', 1),
                 // Items per page
-                15
+                10
             );
             
             // Render the twig view
             return $this->render('usuario/index.twig', 
                 ['pagination' => $pagination]
             );
+
     }
 
 
