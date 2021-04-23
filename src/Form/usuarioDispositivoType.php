@@ -22,7 +22,6 @@ class usuarioDispositivoType extends AbstractType
                 'choice_label' => 'descripcion',
                 'choice_value' => 'descripcion', //esto hace la magia (se llaman iguales)
                 'placeholder' => 'Elegir un dispositivo',
-
             ])
             ->add('canRead', ChoiceType::class, [
                     'choices' => [
@@ -31,7 +30,10 @@ class usuarioDispositivoType extends AbstractType
                         'No puede leer' => 'N',
                     ],
                     'expanded'=>true,
-                    'multiple'=>false ])
+                    'label_attr' => array(
+                                'class' => 'radio-inline' ),
+                    'multiple'=>false,
+            ])
             ->add('canWrite', ChoiceType::class, [
                     'choices' => [
                         'No definido'=>null,
@@ -40,7 +42,10 @@ class usuarioDispositivoType extends AbstractType
                        ],
 
                     'expanded'=>true,
-                    'multiple'=>false ]);
+                    'label_attr' => array(
+                            'class' => 'radio-inline' ),
+                    'multiple'=>false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

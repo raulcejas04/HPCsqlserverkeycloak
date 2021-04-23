@@ -21,6 +21,9 @@ use App\Entity\usuarioDispositivo;
 
 use Knp\Component\Pager\PaginatorInterface;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 /**
 * @Route("/usuario")
 */
@@ -56,43 +59,92 @@ class UsuarioController extends AbstractController
     /**
      * @Route("/list", name="usuario_list")
      */
-    public function list( Request $request, PaginatorInterface $paginator)
+    public function list( Request $request, PaginatorInterface $paginator, SessionInterface $session )
     {
-            // Retrieve the entity manager of Doctrine
-            $em = $this->getDoctrine()->getManager();
-            
-            // Get some repository of data, in our case we have an Appointments entity
-            $usuariosRepository = $em->getRepository(usuario::class);
-                    
-            // Find all the data on the Appointments table, filter your query as you need
-            //->where('p.activo != :activo')
-            //->setParameter('activo', '1')
 
-            $allUsuariosQuery = $usuariosRepository->createQueryBuilder('p')
-                ->getQuery();
+        $pagination = $this->pagination( $paginator, $request, $session, 0 );
             
-            // Paginate the results of the query
-            $pagination = $paginator->paginate(
-                // Doctrine Query, not results
-                $allUsuariosQuery,
-                // Define the page parameter
-                $request->query->getInt('page', 1),
-                // Items per page
-                10
-            );
-            
-            // Render the twig view
-            return $this->render('usuario/index.twig', 
+        // Render the twig view
+        /*return $this->render('usuario/index.twig', 
                 ['pagination' => $pagination]
-            );
+            );*/
+        return $this->render('usuario/index.twig', 
+            ['pagination' => $pagination, 'page'=>$pagination->getCurrentPageNumber() ]
+        );
+
+
+    }
+
+    /**
+     * @Route("/list/{page<\d*>}", name="usuario_list_page")
+     */
+    public function list_page( Request $request, PaginatorInterface $paginator, SessionInterface $session, int $page )
+    {
+
+        $pagination = $this->pagination( $paginator, $request, $session, $page );
+            
+        // Render the twig view
+        /*return $this->render('usuario/index.twig', 
+                ['pagination' => $pagination]
+            );*/
+        return $this->render('usuario/index.twig', 
+            ['pagination' => $pagination, 'page'=>$page ]
+        );
+
 
     }
 
 
-     /**
-     * @Route("/{id}/edit", name="usuario_edit")
+
+
+    /**
+     * @Route("/{id}/show/{page}", name="usuario_show")
      */
-    public function edit( usuario $usuario, Request $request, EntityManagerInterface $em ): Response
+    public function show( usuario $usuario, Request $request, EntityManagerInterface $em, 
+        PaginatorInterface $paginator, SessionInterface $session, int $page  ): Response
+    {
+        //dd($usuario);
+        if (null === $usuario ) {
+//            throw $this->createNotFoundException('No existe el Usuario para el id '.$id);
+            throw $this->createNotFoundException('No existe el Usuario para el id '.$request->get('id'));
+        }
+
+        $originalDisp = new ArrayCollection();
+
+        // Create an ArrayCollection of the current Tag objects in the database
+        foreach ($usuario->getUsuarioDispositivo() as $usuarioDispositivo) {
+            $originalDisp->add($usuarioDispositivo->getDispositivos());
+        }
+
+
+        $form = $this->createForm( UsuarioType::class, $usuario );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->persist($form->getData());
+            $em->flush();
+            // redirect back to some edit page
+            return $this->redirectToRoute('usuario_edit', ['id' => $usuario->getIdUserHpc()]);
+
+        }
+
+        $pagination = $this->pagination( $paginator, $request, $session, $page );
+
+        return $this->render('usuario/index.twig', [
+            'usuarioForm' => $form->createView(),
+            'usuario' => $usuario,
+            'pagination' => $pagination,
+            'page' => $page
+        ]);
+    }
+
+
+     /**
+     * @Route("/{id}/edit/{page}", name="usuario_edit")
+     */
+    public function edit( usuario $usuario, Request $request, 
+        EntityManagerInterface $em, SessionInterface $session, int $page  ): Response
     {
         //dd($usuario);
         if (null === $usuario ) {
@@ -120,10 +172,57 @@ class UsuarioController extends AbstractController
 
         }
 
+
         return $this->render('usuario/edit.twig', [
             'usuario' => $usuario,
             'usuarioForm' => $form->createView(),
+            'page'=>$page
         ]);
+    }
+
+    function pagination( PaginatorInterface $paginator, Request $request, SessionInterface $session, int $page)
+    {
+            //$session = new Session();
+            //$session->start();
+
+            //$page=$paginator->getCurrentPageNumber();
+            //echo "page ".$page."<br>";
+            
+            // Retrieve the entity manager of Doctrine
+            $em = $this->getDoctrine()->getManager();
+            
+            // Get some repository of data, in our case we have an Appointments entity
+            $usuariosRepository = $em->getRepository(usuario::class);
+                    
+            // Find all the data on the Appointments table, filter your query as you need
+            //->where('p.activo != :activo')
+            //->setParameter('activo', '1')
+
+            $allUsuariosQuery = $usuariosRepository->createQueryBuilder('p')
+                ->orderBy('p.nombre')
+                ->getQuery();
+
+            //echo "request ".$request->query->getInt('page', 1)."<br>";
+            //echo "page1 ".$page."<br>";
+            if( $page >0 )
+                $indice=$page;
+            else
+                $indice=$request->query->getInt('page', 1);
+
+            // Paginate the results of the query
+            $pagination = $paginator->paginate(
+                // Doctrine Query, not results
+                $allUsuariosQuery,
+                // Define the page parameter
+                $indice,
+                // Items per page
+                10
+            );
+
+            $pagination->setTemplate('usuario/my_pagination.html.twig');
+
+        return $pagination;
+
     }
 
 }

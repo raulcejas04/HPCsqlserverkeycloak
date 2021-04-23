@@ -28,9 +28,12 @@ Encore
 	'./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
 	'./node_modules/clipboard/dist/clipboard.js',
         //'./node_modules/holderjs/holder.min.js',
-        './assets/app.js'
-
+        './assets/app.js',
+        './assets/style.js'
     ])
+    .addEntry('collections', './assets/collections.js')
+    //.addEntry('style', './assets/style.js')
+    //.addStyleEntry('style', './assets/styles/style.css')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 
