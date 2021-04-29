@@ -1,28 +1,23 @@
-{# ./templates/default/index.html.twig #}
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>My Application</title>
-    </head>
-    <body>
-	<div class="count">
-	   {{ pagination.getTotalItemCount }}
-	</div>
-        <table>
-        {% for usuario in pagination %}
-            <tr>
-                <td>{{ usuario.nombre }}</td>
-                <td>
-                    {#<a href="{{ path('usuario_show', {'id': usuario.idUserHpc}) }}">show</a>#}
-                    <a href="{{ path('usuario_edit', {'id': usuario.idUserHpc}) }}">edit</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </table>
-        
-        <div class="navigation">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-    </body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block toolbar_content %}
+    {% include('usuario/toolbar.html.twig') %}
+{% endblock toolbar_content %}
+
+{% block body %}
+
+{% block sidebar_content %}
+    {% include('usuario/sidebar_content.html.twig') %}
+{% endblock sidebar_content %}
+
+{% block main_content %}
+    {% include('usuario/main_content.html.twig') %}
+{% endblock main_content %}
+
+{% endblock %}
+
+{% block javascripts %}
+   {{ parent() }}
+   {{ encore_entry_script_tags('collections') }}
+ {% endblock %}
+

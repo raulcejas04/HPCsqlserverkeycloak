@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "@symfony/stimulus-bridge": "^2.0.0",
+    "@symfony/webpack-encore": "^1.1.2",
+    "bootstrap": "^4.6.0",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1",
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.0",
+    "stimulus": "^2.0.0",
+    "webpack-notifier": "^1.6.0"
+  },
+  "dependencies": {
+    "bootstrap-table": "^1.18.3",
+    "clipboard": "^2.0.8",
+    "core-js": "^3.10.0",
+    "jquery-ui-dist": "^1.12.1",
+    "propper": "^1.0.4",
+    "zeroclipboard": "^2.3.0"
+  }
+}

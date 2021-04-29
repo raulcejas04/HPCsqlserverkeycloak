@@ -1,0 +1,46 @@
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Usuarios dispositivos</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Modificar</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Borrar</button>
+          </div>
+          {#<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>#}
+        </div>
+      </div>
+
+      <main class="bd-main order-1">
+      <div class="bd-intro ps-lg-4">
+
+      <div class="row js-usudisp-wrapper">
+        <button type="button" class="add_item_link btn btn-secondary" data-collection-holder-class="usuarioDispositivo">Agregar dispositivo</button>
+      </div>
+      <br>
+
+	{% if usuarioForm is defined %}
+		<style>
+		.form-group{ margin-bottom: 0; }
+		</style>
+	    <div class="usuarioDispositivo" data-prototype="{{ form_widget(usuarioForm.usuarioDispositivo.vars.prototype)|e('html_attr') }}">
+	        {% for usudispForm in usuarioForm.usuarioDispositivo %}
+	            <div class="card border-primary" style="margin-bottom:10px">
+	            <div class="card-body">
+	                {{- form_label(usudispForm) -}}
+		        {{- form_widget(usudispForm) -}}
+   		        {{- form_help(usudispForm) -}}
+		    </div>
+	            </div>
+
+	        {% endfor %}
+	    </div>
+	{% endif %}
+
+
+      </div>
+      </main>
+     
+
+

@@ -1,0 +1,13 @@
+        <table>
+        {% for usuario in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('usuario_show', {'id': usuario.idUserHpc, 'page': page}) }}">{{ usuario.nombre }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>

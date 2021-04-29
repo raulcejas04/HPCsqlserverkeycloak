@@ -22,6 +22,7 @@ class usuarioType extends AbstractType
             'allow_delete' => true,
             'allow_add' => true,
             'by_reference' => false,
+            'entry_options' => ['label' => false ]
             ])
         ->add('apellido')
         ->add('nombre')
