@@ -23,19 +23,15 @@ Encore
     //.addEntry('app', './assets/app.js')
     .addEntry('app', [
         './node_modules/jquery/dist/jquery.slim.js',
-        './node_modules/jquery.mousewheel/jquery.mousewheel.js',
         './node_modules/popper.js/dist/popper.min.js',
         './node_modules/bootstrap/dist/js/bootstrap.min.js',
 	'./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
 	'./node_modules/clipboard/dist/clipboard.js',
         //'./node_modules/holderjs/holder.min.js',
         './assets/app.js',
-        './assets/style.js',
-        './assets/select2.js'
+        './assets/style.js'
     ])
     .addEntry('collections', './assets/collections.js')
-    .addEntry('usuario', './assets/usuario.js')
-    //.addEntry('select2', './assets/select2.js')
     //.addEntry('style', './assets/style.js')
     //.addStyleEntry('style', './assets/styles/style.css')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

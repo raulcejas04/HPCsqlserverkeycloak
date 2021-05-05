@@ -11,13 +11,13 @@
     <div class="collapse navbar-collapse" id="bdNavbar">
       <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
         <li class="nav-item col-6 col-md-auto">
-          <a class="nav-link p-2" href="/">Home</a>
+          <a class="nav-link p-2" href="{{ path('usuario_list') }}">Home</a>
         </li>
         <li class="nav-item col-6 col-md-auto">
-          <a class="nav-link p-2 active" aria-current="true" href="/docs/5.0/getting-started/introduction/" >Usuarios</a>
+          <a class="nav-link p-2 active" aria-current="true" href="{{ path('usuario_list') }}" >Usuarios</a>
         </li>
         <li class="nav-item col-6 col-md-auto">
-          <a class="nav-link p-2" href="https://icons.getbootstrap.com/" target="_blank" rel="noopener">Dispositivos</a>
+          <a class="nav-link p-2" href="{{ path('dispositivos_index') }}" target="_blank" rel="noopener">Dispositivos</a>
         </li>
       </ul>
 

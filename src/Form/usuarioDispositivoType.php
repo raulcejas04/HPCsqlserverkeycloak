@@ -22,6 +22,9 @@ class usuarioDispositivoType extends AbstractType
                 'choice_label' => 'descripcion',
                 'choice_value' => 'descripcion', //esto hace la magia (se llaman iguales)
                 'placeholder' => 'Elegir un dispositivo',
+                'attr' => [
+                    'class' => 'select2-single'
+                ],
             ])
             ->add('canRead', ChoiceType::class, [
                     'choices' => [

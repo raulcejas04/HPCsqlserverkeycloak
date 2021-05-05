@@ -2,11 +2,11 @@ doctrine:
     dbal:
         driver: pdo_sqlsrv
         #url: '%env(resolve:DATABASE_URL)%'
-        host: DESKTOP-6OBQJAV
+        host: 192.168.0.143
         port: 1433
-        dbname: Raul
-        user: "pulga"
-        password: "1234"
+        dbname: raul
+        user: "raul2"
+        password: "qaz123"
         charset: UTF8
 
         # IMPORTANT: You MUST configure your server version,

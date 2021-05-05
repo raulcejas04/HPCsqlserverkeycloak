@@ -1,34 +1,32 @@
-
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      	{% if usuario is defined %}
-        <h1 class="h2">{{usuario.nombre}}</h1>
+        <h1 class="h2">Usuarios dispositivos</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
-            <a href="{{ path('usuario_edit', {'id': usuario.idUserHpc, 'page': page}) }}" class="btn btn-sm btn-outline-secondary">Modificar</a>
-            <a href="{{ path('borrar_todos', {'id': usuario.idUserHpc, 'page': page}) }}" class="btn btn-sm btn-outline-secondary">Borrar todos los permisos</a>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Modificar</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Borrar</button>
           </div>
+          {#<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>#}
         </div>
-      	{% endif %}
       </div>
 
       <main class="bd-main order-1">
       <div class="bd-intro ps-lg-4">
 
-      {% if not ( ('show' in app.request.uri) or ('list' in app.request.uri) ) %}
       <div class="row js-usudisp-wrapper">
         <button type="button" class="add_item_link btn btn-secondary" data-collection-holder-class="usuarioDispositivo">Agregar dispositivo</button>
       </div>
       <br>
-      {% endif %}
 
 	{% if usuarioForm is defined %}
 		<style>
 		.form-group{ margin-bottom: 0; }
-		.select2-single { width: auto } /* ancho de los select dispositivos */
 		</style>
 	    <div class="usuarioDispositivo" data-prototype="{{ form_widget(usuarioForm.usuarioDispositivo.vars.prototype)|e('html_attr') }}">
 	        {% for usudispForm in usuarioForm.usuarioDispositivo %}
-	            <div class="card border-primary" style="margin-bottom:10px" >
+	            <div class="card border-primary" style="margin-bottom:10px">
 	            <div class="card-body">
 	                {{- form_label(usudispForm) -}}
 		        {{- form_widget(usudispForm) -}}
@@ -44,4 +42,5 @@
       </div>
       </main>
      
+
 

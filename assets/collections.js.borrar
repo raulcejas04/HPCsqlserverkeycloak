@@ -24,9 +24,7 @@ function addFormToCollection($collectionHolderClass) {
     $collectionHolder.data('index', index + 1);
 
     // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<div class="card border-primary" style="margin-bottom:10px"><div class="card-body"></div></div>');
-    $newFormLi.find('div.card-body').append(newForm);
-
+    var $newFormLi = $('<div class="card border-primary" style="margin-bottom:10px"><div class="card-body"></div></div>').append(newForm);
     // Add the new form at the end of the list
     $collectionHolder.append($newFormLi)
 
@@ -52,8 +50,6 @@ jQuery(document).ready(function() {
     /**********************************************************/
     /*           ADD                                          */
     /**********************************************************/
-    if( edit=='N')
-        return;
 
     // Get the ul that holds the collection of tags
     var $usuarioDispositivoCollectionHolder = $('div.usuarioDispositivo');
@@ -63,7 +59,6 @@ jQuery(document).ready(function() {
     $usuarioDispositivoCollectionHolder.data('index', $usuarioDispositivoCollectionHolder.find('input').length);
 
     $('body').on('click', '.add_item_link', function(e) {
-
         var $collectionHolderClass = $(e.currentTarget).data('collectionHolderClass');
         // add a new tag form (see next code block)
         addFormToCollection($collectionHolderClass);
@@ -78,7 +73,9 @@ jQuery(document).ready(function() {
         addTagFormDeleteLink($(this));
     });
 
-   
+
+
+    
 });
 
 

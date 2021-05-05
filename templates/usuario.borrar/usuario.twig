@@ -16,6 +16,7 @@
         <button type="button" class="add_item_link" data-collection-holder-class="usuarioDispositivo">Agregar dispositivo</button>
     </div>
 
+    {#{{ form_widget(usuarioForm.usuarioDispositivo) }}#}
 
     <ul class="usuarioDispositivo" data-prototype="{{ form_widget(usuarioForm.usuarioDispositivo.vars.prototype)|e('html_attr') }}">
         {% for usudispForm in usuarioForm.usuarioDispositivo %}

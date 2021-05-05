@@ -10,13 +10,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use App\Form\usuarioDispositivoType;
 
 class usuarioType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //print_r($options);
     $builder
+        ->setDisabled($options['disabled'])
         ->add('usuarioDispositivo', CollectionType::class, [
             'entry_type' => usuarioDispositivoType::class,
             'allow_delete' => true,
@@ -26,9 +29,10 @@ class usuarioType extends AbstractType
             ])
         ->add('apellido')
         ->add('nombre')
-        ->add('idUserKeycloak');
+        ->add('idUserKeycloak')
+        ->add('edit_entity', HiddenType::class, [ 'mapped'=>false, 'disabled'=>false, 'attr' => ['value' => '1'] ]);
     }
-
+//( !$options['disabled'] ? '0' : '1' )
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
