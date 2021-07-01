@@ -7,6 +7,7 @@ parameters:
     'keycloak-server-url': 'http://localhost:8080/auth'
     'keycloak-realm': 'Extranet'
     'keycloak-client-id': 'industrias'
+    'keycloak-client-uuid': '074d1611-07cf-4531-82e0-abba360b3d4d'
     'keycloak-client-secret': '4791eb08-d32d-4d49-af63-4e5103fc2a93'
     'keycloak-callback': 'http://localhost:8000'
     'keycloak_admin_username': 'raul'

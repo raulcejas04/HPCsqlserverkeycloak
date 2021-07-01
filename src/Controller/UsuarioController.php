@@ -24,6 +24,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use App\Controller\KeyCloakApiController;
 
 /**
@@ -31,12 +32,55 @@ use App\Controller\KeyCloakApiController;
 */
 class UsuarioController extends AbstractController
 {
-
     /**
-     * @Route("/", name="usuario_list")
+     * @Route("/main", name="usuario_list")
      */
-    public function index( Request $request, PaginatorInterface $paginator, SessionInterface $session )
+    public function index( Request $request, PaginatorInterface $paginator, SessionInterface $session,
+        EntityManagerInterface $em, KeyCloakApiController $keycloak_api  )
     {
+        $usersHPC=$em->getRepository(usuario::class)->findAll();
+        $usersKK=$keycloak_api->getUsers();
+        //dd($usersKK);
+        $difk=[];
+        foreach( $usersKK as $uk )
+        {
+            if( !$uk->enabled ) continue;
+            foreach( $usersHPC as $uh)
+            {
+                $find=false;
+                if( $uh->getIdUserAd() == $uk->username )
+                {
+                    $find=true;
+                }
+            }
+            if( !$find )
+                $difk[]=array("username"=>$uk->username,
+                                "lastName"=>$uk->lastName,
+                                "firstName"=>$uk->firstName);
+
+        }
+
+        $difh=[];
+        foreach( $usersHPC as $uh)
+        {
+            if( $uh->getUserActivo() != 'S' )
+                continue;
+            foreach( $usersKK as $uk )
+            {
+                $find=false;
+                if( $uh->getIdUserAd() == $uk->username )
+                {
+                    $find=true;
+                }
+            }
+            if( !$find )
+                $difh[]=array("username"=>$uh->getIdUserAd(),
+                                "lastName"=>$uh->getApellido(),
+                                "firstName"=>$uh->getNombre());
+
+        }
+
+
         $pagination = $this->pagination( $paginator, $request, $session, 0 );
             
         // Render the twig view
@@ -44,11 +88,87 @@ class UsuarioController extends AbstractController
                 ['pagination' => $pagination]
             );*/
         return $this->render('usuario/index.twig', 
-            ['pagination' => $pagination, 'page'=>$pagination->getCurrentPageNumber() ]
+            ['pagination' => $pagination, 'page'=>$pagination->getCurrentPageNumber(),
+            'difh'=>$difh, 'difk'=>$difk ]
         );
 
 
     }
+
+
+    /**
+     * @Route("/sincronizar/nuevos", name="sincronizar_nuevos")
+     */
+    public function sincronizar_nuevos( Request $request, PaginatorInterface $paginator, SessionInterface $session,
+        EntityManagerInterface $em, KeyCloakApiController $keycloak_api  )
+    {
+      
+        $param=$request->request->all();
+        foreach( $param as $c=>$d)
+        {
+            if( $d!='on') continue;
+
+            list($dummy,$username)= explode('chk_k_',$c);
+            
+            /*$userQuery = $em->getRepository(usuario::class)->createQueryBuilder('p');
+            $userQuery->where("TRIM(UPPER(p.idUserAd)) LIKE TRIM(UPPER('%".$username."%'))");
+            $usuario=$userQuery->getQuery()->getResult();*/
+
+            $user=new usuario();
+
+            $userKK=$keycloak_api->getUserByUsername($username);
+
+            $user->setIdUserKeycloak($userKK[0]->id);
+            $user->setIdUserAd($userKK[0]->username);
+            $user->setApellido($userKK[0]->lastName);
+            $user->setNombre($userKK[0]->firstName);
+            $user->setUserActivo('S');
+            $em->persist($user);
+            $em->flush();
+        }
+
+
+        $page = $request->query->get('page');
+        $filter = $request->query->get('user-filter');
+        if( !isset($page) OR strlen($filter)>0 ) $page=0;
+        $pagination = $this->pagination( $paginator, $request, $session, $page );
+
+        return $this->redirectToRoute('usuario_list');
+    }
+
+    /**
+     * @Route("/sincronizar/bajas", name="sincronizar_bajas")
+     */
+    public function sincronizar_bajas( Request $request, PaginatorInterface $paginator, SessionInterface $session,
+        EntityManagerInterface $em, KeyCloakApiController $keycloak_api  )
+    {
+
+        $param=$request->request->all();
+        foreach( $param as $c=>$d)
+        {
+            if( $d!='on') continue;
+
+            list($dummy,$username)= explode('chk_h_',$c);
+
+            $userQuery = $em->getRepository(usuario::class)->createQueryBuilder('p');
+            $userQuery->where("p.idUserAd = '".$username."'");
+            $cursor=$userQuery->getQuery();
+            $usuario=$cursor->getResult();
+
+            //dd($usuario);
+
+            if( $usuario )
+            {
+                $usuario[0]->setUserActivo('N');
+                $em->persist($usuario[0]);
+                $em->flush();
+            }
+
+        }
+        return $this->redirectToRoute('usuario_list');
+    }
+
+
 
     /**
      * @Route("/list/{filtro<[A-z]*>}", defaults={"filtro"=null}, name="usuario_list_page")
@@ -59,7 +179,6 @@ class UsuarioController extends AbstractController
         $page = $request->query->get('page');
         $filter = $request->query->get('user-filter');
         if( !isset($page) OR strlen($filter)>0 ) $page=0;
-
 
         $pagination = $this->pagination( $paginator, $request, $session, $page, $filter );
             
@@ -77,7 +196,7 @@ class UsuarioController extends AbstractController
      * @Route("/{id}/show", name="usuario_show")
      */
     public function show( usuario $usuario, Request $request, EntityManagerInterface $em, 
-        PaginatorInterface $paginator, SessionInterface $session, int $page  ): Response
+        PaginatorInterface $paginator, SessionInterface $session  ): Response
     {
         $page = $request->query->get('page');
         //dd($usuario);
@@ -89,6 +208,7 @@ class UsuarioController extends AbstractController
         $form = $this->createForm( UsuarioType::class, $usuario, array( 'disabled'=>true ) );
         $form->handleRequest($request);
 
+        $page = $request->query->get('page');
         $pagination = $this->pagination( $paginator, $request, $session, $page );
 
         return $this->render('usuario/index.twig', [
@@ -107,8 +227,10 @@ class UsuarioController extends AbstractController
     public function edit( usuario $usuario, Request $request, EntityManagerInterface $em, 
         PaginatorInterface $paginator, SessionInterface $session  ): Response
     {
-        //dd($usuario);
+
         $page = $request->query->get('page');
+        //dd($usuario);
+
         if (null === $usuario ) {
 //            throw $this->createNotFoundException('No existe el Usuario para el id '.$id);
             throw $this->createNotFoundException('No existe el Usuario para el id '.$request->get('id'));
@@ -122,7 +244,7 @@ class UsuarioController extends AbstractController
         }
 
 
-        $form = $this->createForm( UsuarioType::class, $usuario, array( 'disabled'=>false ) );
+        $form = $this->createForm( UsuarioType::class, $usuario, array( 'disabled'=>false,'label'=>false ) );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -130,7 +252,7 @@ class UsuarioController extends AbstractController
             $em->persist($form->getData());
             $em->flush();
             // redirect back to some edit page
-            return $this->redirectToRoute('usuario_edit', ['id' => $usuario->getIdUserHpc()]);
+            return $this->redirectToRoute('usuario_edit', ['id' => $usuario->getIdUserHpc(), 'page'=>$page]);
 
         }
 
@@ -246,7 +368,10 @@ class UsuarioController extends AbstractController
             if( $page >0 )
                 $indice=$page;
             else
+            {
                 $indice=$request->query->getInt('page', 1);
+                if( !$indice ) $indice = 1;
+            }
 
             // Paginate the results of the query
             $pagination = $paginator->paginate(
@@ -263,5 +388,6 @@ class UsuarioController extends AbstractController
         return $pagination;
 
     }
+
 
 }

@@ -14,7 +14,7 @@
       <main class="bd-main order-1">
       <div class="bd-intro ps-lg-4">
 
-      {% if not ( ('show' in app.request.uri) or ('list' in app.request.uri) ) %}
+      {% if not ( ('show' in app.request.uri) or ('list' in app.request.uri) or ('main' in (app.request.uri) ) ) %}
       <div class="row js-usudisp-wrapper">
         <button type="button" class="add_item_link btn btn-secondary" data-collection-holder-class="usuarioDispositivo">Agregar dispositivo</button>
       </div>
@@ -22,6 +22,9 @@
       {% endif %}
 
 	{% if usuarioForm is defined %}
+        {% if not ( ('show' in app.request.uri) or ('list' in app.request.uri) )  %}
+          {{ form_start(usuarioForm) }}
+        {% endif %}
 		<style>
 		.form-group{ margin-bottom: 0; }
 		.select2-single { width: auto } /* ancho de los select dispositivos */
@@ -38,9 +41,56 @@
 
 	        {% endfor %}
 	    </div>
+        {% if not ( ('show' in app.request.uri) or ('list' in app.request.uri) )  %}
+           {{ form_end(usuarioForm) }}
+        {% endif %}
 	{% endif %}
+	
+	{% if ( difk is defined or difh is defined ) and ( difk|length > 0 or difh|length >0 ) %}
+      		<form id=form_difk name=form_difk action='{{ path('sincronizar_nuevos')}}' method=POST>
+		<h2>Usuarios nuevos</h2>
+		<table class="table table-hover">
+			<tr>
+			<th scope="col"><input name="chk_h_all" type=checkbox></th>
+   			<th scope="col">Usuario</th>
+   			<th scope="col">Apellido</th>
+   			<th scope="col">Nombre</th>
+   			</tr>
+		{% for dif in difk %}
+			<tr>
+			<td scope="col"><input name="chk_k_{{dif.username}}" type=checkbox></td>
+   			<td scope="col">{{dif.username}}</td>
+   			<td scope="col">{{dif.lastName}}</td>
+   			<td scope="col">{{dif.firstName}}</td>
+   			</tr>
+	        {% endfor %}
+      	        </table>
+		<button type="submit" class="btn btn-primary">Agregar nuevos</button>
+		</form>
+	        <br>	        
+      		<h2>Usuarios dados de baja</h2>
+      		<form id=form_difh name=form_difh action='{{ path('sincronizar_bajas')}}' method=POST>
+      		<table class="table table-hover">
+			<tr>
+			<th scope="col"><input name="chk_h_all" type=checkbox></th>
+   			<th scope="col">Usuario</th>
+   			<th scope="col">Apellido</th>
+   			<th scope="col">Nombre</th>
+   			</tr>
 
+      		{% for dif in difh %}
+			<tr>
+			<td scope="col"><input name="chk_h_{{dif.username}}" type=checkbox></td>
+   			<td scope="col">{{dif.username}}</td>
+   			<td scope="col">{{dif.lastName}}</td>
+   			<td scope="col">{{dif.firstName}}</td>
+   			</tr>
+	        {% endfor %}
+      	        </table>
+		<button type="submit" class="btn btn-primary">Anular eliminados</button>	        
+		</form>
 
+	{% endif %}
       </div>
       </main>
      

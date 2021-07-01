@@ -59,7 +59,7 @@ class usuario
     private $userActivo;
 
     /**
-     * @ORM\OneToMany(targetEntity="usuarioDispositivo", mappedBy="usuario", orphanRemoval=true, cascade={"persist"} )
+     * @ORM\OneToMany(targetEntity="usuarioDispositivo", mappedBy="usuario", orphanRemoval=true, cascade={"persist"}, fetch="EAGER" )
      * @ORM\JoinColumn(name="id_user_hpc", referencedColumnName="id_user_hpc")
     */
     private $usuarioDispositivo;

@@ -84,11 +84,14 @@
     "egulias/email-validator": {
         "version": "3.1.0"
     },
+    "firebase/php-jwt": {
+        "version": "v4.0.0"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
     "guzzlehttp/guzzle": {
-        "version": "7.3.0"
+        "version": "6.5.0"
     },
     "guzzlehttp/promises": {
         "version": "1.4.1"
@@ -111,11 +114,17 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.2.0"
     },
+    "league/oauth2-client": {
+        "version": "2.2.1"
+    },
     "monolog/monolog": {
         "version": "2.2.0"
     },
     "nikic/php-parser": {
         "version": "v4.10.4"
+    },
+    "paragonie/random_compat": {
+        "version": "v2.0.20"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -134,9 +143,6 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
-    },
-    "psr/http-client": {
-        "version": "1.0.1"
     },
     "psr/http-message": {
         "version": "1.0.1"
@@ -161,6 +167,9 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "stevenmaguire/oauth2-keycloak": {
+        "version": "2.2.1"
     },
     "symfony/asset": {
         "version": "v5.2.4"

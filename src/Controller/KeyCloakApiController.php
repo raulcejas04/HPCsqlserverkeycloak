@@ -28,18 +28,20 @@ class KeyCloakApiController extends AbstractController
 	
 	/**
 	 * GET /admin/realms/{realm}/users/{id}/role-mappings/clients/{client}/composite
+	* /auth/admin/realms/{realm}/users/{user-uuid}/role-mappings/clients/{client-uuid}
 	 */
 	public function getRolesComposite($usuario_id){
-		$token = $this->get('keycloak_api')->getTokenAdmin();
+		$token = $this->getTokenAdmin();
 		$base_uri_keycloak = $this->getParameter('keycloak-server-url');
-		$uri = $base_uri_keycloak.'/admin/realms/{realm}/users/{id}/role-mappings/clients/{client}/composite';
+		$uri = $base_uri_keycloak.'/admin/realms/{realm}/users/{id}/role-mappings/clients/{client_uuid}';
 
 		$realm=$this->getParameter('keycloak-realm');
 		$uri = str_replace("{realm}", $realm, $uri);
 		$uri = str_replace("{id}", $usuario_id, $uri);
-		$client_id = $this->getParameter('clientKeycloakId');
-		$uri = str_replace("{client}", $client_id, $uri);
+		$client_id = $this->getParameter('keycloak-client-uuid');
+		$uri = str_replace("{client_uuid}", $client_id, $uri);
 	
+		//dd($uri);
 		$params = ['headers' => ['Authorization' => "Bearer ".$token->access_token]];
 
 		$res = $this->client->get($uri, $params);
@@ -47,7 +49,29 @@ class KeyCloakApiController extends AbstractController
 		
 		return $data;
 	}
+
 	
+    /** 
+	*GET /admin/realms/{realm}/users/{id}/groups
+    */
+	public function getUserGroups($usuario_id){
+		$token = $this->getTokenAdmin();
+		$base_uri_keycloak = $this->getParameter('keycloak-server-url');
+		$uri = $base_uri_keycloak.'/admin/realms/{realm}/users/{id}/groups';
+
+		$realm=$this->getParameter('keycloak-realm');
+		$uri = str_replace("{realm}", $realm, $uri);
+		$uri = str_replace("{id}", $usuario_id, $uri);
+	
+		//dd($uri);
+		$params = ['headers' => ['Authorization' => "Bearer ".$token->access_token]];
+
+		$res = $this->client->get($uri, $params);
+		$data = json_decode($res->getBody());
+		
+		return $data;
+	}
+
 	
 	/**
 	 * GET /admin/realms/{realm}/clients
@@ -143,7 +167,7 @@ class KeyCloakApiController extends AbstractController
 		
 		$params = ['headers' => ['Authorization' => "Bearer ".$token->access_token]
 		];
-		
+		//echo $uri."<br>";
 		$res = $this->client->get($uri, $params);
 		$data = json_decode($res->getBody());
 		
@@ -170,7 +194,10 @@ class KeyCloakApiController extends AbstractController
 	
 		return $data;
 	}
+
 	
+
+
 	/**
 	 * GET /admin/realms/{realm}/groups/{id}/members
 	 * Query(optional): first (pagination offset), max (max result size)

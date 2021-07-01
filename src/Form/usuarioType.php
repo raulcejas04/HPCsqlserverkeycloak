@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\usuarioDispositivoType;
 
 class usuarioType extends AbstractType
@@ -27,10 +28,15 @@ class usuarioType extends AbstractType
             'by_reference' => false,
             'entry_options' => ['label' => false ]
             ])
-        ->add('apellido')
-        ->add('nombre')
-        ->add('idUserKeycloak')
-        ->add('edit_entity', HiddenType::class, [ 'mapped'=>false, 'disabled'=>false, 'attr' => ['value' => '1'] ]);
+        //->add('apellido')
+        //->add('nombre')
+        //->add('idUserKeycloak')
+        ->add('edit_entity', HiddenType::class, [ 'mapped'=>false, 'disabled'=>false, 'attr' => ['value' => '1'] ])
+        ->add('save', SubmitType::class, [
+            'label'=>'Guardar',
+            'attr' => ['class' => 'btn btn-success' ]
+        ])
+;
     }
 //( !$options['disabled'] ? '0' : '1' )
     public function configureOptions(OptionsResolver $resolver)
