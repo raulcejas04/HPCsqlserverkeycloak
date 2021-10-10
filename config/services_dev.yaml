@@ -4,16 +4,28 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    'keycloak-server-url': 'http://localhost:8080/auth'
-    'keycloak-realm': 'Extranet'
-    'keycloak-client-id': 'industrias'
-    'keycloak-client-uuid': '074d1611-07cf-4531-82e0-abba360b3d4d'
-    'keycloak-client-secret': '4791eb08-d32d-4d49-af63-4e5103fc2a93'
-    'keycloak-callback': 'http://localhost:8000'
-    'keycloak_admin_username': 'raul'
-    'keycloak_admin_password': 'Qazx1234'
-    'keycloak_grant_type': 'password'
-    'keycloak_admin-client_id': 'admin-cli'
+    #'keycloak-server-url': 'http://127.0.0.1:8080/auth'
+    #'keycloak-realm': 'Extranet'
+    #'keycloak-client-id': 'industrias'
+    #'keycloak-client-uuid': '074d1611-07cf-4531-82e0-abba360b3d4d'
+    #'keycloak-client-secret': '4791eb08-d32d-4d49-af63-4e5103fc2a93'
+    #'keycloak-callback': 'http://localhost:8005'
+    #'keycloak_admin_username': 'raul'
+    #'keycloak_admin_password': 'Qazx1234'
+    #'keycloak_grant_type': 'password'
+    #'keycloak_admin-client_id': 'admin-cli'
+    
+    keycloak_realm: '%env(KEYCLOAK_REALM)%'
+    keycloak_secret: '%env(KEYCLOAK_SECRET)%'
+    keycloak_clientid: '%env(KEYCLOAK_CLIENTID)%'
+    keycloak-server-url: '%env(KEYCLOAK_APP_URL)%'
+    
+    keycloak_admin_realm: '%env(KEYCLOAK_ADMIN_REALM)%'    
+    keycloak_admin_username: '%env(KEYCLOAK_ADMIN_USERNAME)%'
+    keycloak_admin_password: '%env(KEYCLOAK_ADMIN_PASSWORD)%'
+    keycloak_admin_grant_type: '%env(KEYCLOAK_ADMIN_GRANT_TYPE)%'
+    keycloak_admin_client_id: '%env(KEYCLOAK_ADMIN_CLIENT_ID)%'
+
 
 services:
     # default configuration for services in *this* file

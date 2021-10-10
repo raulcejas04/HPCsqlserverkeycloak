@@ -50,6 +50,48 @@ class KeyCloakApiController extends AbstractController
 		return $data;
 	}
 
+	public function postUsuario( $username, $email, $firstname, $lastname )
+	{
+		// Testing created user: http://localhost:8180/auth/realms/Testkeycloak/account
+		// Testing http trafic sudo tcpflow -i any -C port 8180 (https://www.it-swarm-es.com/es/linux/cual-es-la-forma-mas-facil-de-detectar-tcp-datos-de-trafico-en-linux/957498336/ )
+		// example creating user https://www.appsdeveloperblog.com/keycloak-rest-api-create-a-new-user/
+	
+		$token = $this->getTokenAdmin();
+		$base_uri_keycloak = $this->getParameter('keycloak-server-url');
+		$uri = $base_uri_keycloak.'/admin/realms/{realm}/users';
+		$realm=$this->getParameter('keycloak_realm');
+		$uri = str_replace("{realm}", $realm, $uri);
+
+
+
+		$params = [
+				'headers' => [
+				'Content-Type' => 'application/json',
+				'Authorization' => "Bearer ".$token->access_token],
+				'debug'=>true,
+				'json' => [	
+						'username' => $username,
+						'email' => $email,
+						'firstName' => $firstname,
+						'lastName' => $lastname,
+						'enabled' => true,
+						'credentials' => 
+						        [ 0=>[
+							'type'=>'password',
+							'value'=>'Babilonia1',
+							'temporary'=>'false'
+							]
+							]
+						]
+		        ];
+		
+		$res = $this->client->post($uri, $params);
+
+		
+		$data = json_decode($res->getBody());
+		dd($data);		
+		return $data;
+	}
 	
     /** 
 	*GET /admin/realms/{realm}/users/{id}/groups
@@ -103,10 +145,12 @@ class KeyCloakApiController extends AbstractController
 				'form_params' => [
 						'username' => $this->getParameter('keycloak_admin_username'),
 						'password' => $this->getParameter('keycloak_admin_password'),
-						'grant_type' => $this->getParameter('keycloak_grant_type'),
-						'client_id' => $this->getParameter('keycloak_admin-client_id')
+						'grant_type' => $this->getParameter('keycloak_admin_grant_type'),
+						'client_id' => $this->getParameter('keycloak_admin_client_id'),
+						'client_secret'=> $this->getParameter('Keycloak_admin_client_secret'),
 				]
 		];
+		//dd($parametros);
 		$res = $this->client->post($uri, $parametros);
 		$data = json_decode($res->getBody());
 		return $data;

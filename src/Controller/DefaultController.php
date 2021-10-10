@@ -99,6 +99,8 @@ class DefaultController extends AbstractController
                 '<html><body>Usuario: '.$user->getName().'<br>
                     Token: '.$token->getToken().'
                     </body></html>');
+                    
+           return $this->redirect($this->generateUrl('usuario_list'));
 
         }
 
